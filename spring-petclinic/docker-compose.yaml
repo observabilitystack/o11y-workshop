@@ -1,0 +1,29 @@
+version: '2.4'
+
+services:
+  petclinic:
+    image: observabilitystack/spring-petclinic:latest
+    environment:
+      - spring_profiles_active=postgres
+      - POSTGRES_URL=jdbc:postgresql://postgresql/petclinic
+      - POSTGRES_USER=petclinic
+      - POSTGRES_PASS=petclinic
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.petclinic.rule=Host(`petclinic.${HOSTNAME}.workshop.o11ystack.org`)
+      - traefik.http.routers.petclinic.service=petclinic
+      - traefik.http.services.petclinic.loadbalancer.server.port=8080
+    depends_on:
+      - postgresql
+
+  postgresql:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=petclinic
+      - POSTGRES_USER=petclinic
+      - POSTGRES_PASSWORD=petclinic
+
+networks:
+  default:
+    name: o11ystack
+    external: true

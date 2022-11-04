@@ -1,1 +1,1 @@
-# o11y-test-drive
+# o11y-workshop
