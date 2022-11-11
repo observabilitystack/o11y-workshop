@@ -10,7 +10,7 @@ services:
       - POSTGRES_PASS=petclinic
     labels:
       - traefik.enable=true
-      - traefik.http.routers.petclinic.rule=Host(`petclinic.${HOSTNAME}.workshop.o11ystack.org`)
+      - traefik.http.routers.petclinic.rule=Host(`petclinic.${HOSTNAME}.${DOMAIN_NAME}`)
       - traefik.http.routers.petclinic.service=petclinic
       - traefik.http.services.petclinic.loadbalancer.server.port=8080
     depends_on:
@@ -18,6 +18,8 @@ services:
 
   postgresql:
     image: postgres:15
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_DB=petclinic
       - POSTGRES_USER=petclinic
