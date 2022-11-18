@@ -1,0 +1,21 @@
+version: '2.4'
+
+services:
+  grafana_agent:
+    image: grafana/agent:latest
+    command: |
+      -config.file=/etc/agent/agent.yaml
+    environment:
+      - INSTANCE_TYPE=${INSTANCE_TYPE}
+      - INSTANCE_ID=${INSTANCE_ID}
+      - INSTANCE_IP=${INSTANCE_IP}
+      - INSTANCE_IMAGE=${INSTANCE_IMAGE}
+      - INSTANCE_DATACENTER=${INSTANCE_DATACENTER}
+      - HOSTNAME=${HOSTNAME}
+    volumes:
+      - ./rootfs/etc/agent:/etc/agent
+
+networks:
+  default:
+    name: o11ystack
+    external: true

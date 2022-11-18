@@ -1,0 +1,13 @@
+traces:
+  configs:
+  - name: default
+    remote_write:
+      - endpoint: tempo-eu-west-0.grafana.net:443
+        basic_auth:
+          username: $${GRAFANA_TEMPO_USERNAME}
+          password: $${GRAFANA_API_KEY}
+    receivers:
+      otlp:
+        protocols:
+          http:
+          grpc:

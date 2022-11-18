@@ -1,0 +1,26 @@
+server:
+  http_listen_port: 0
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+client:
+  url: https://$${GRAFANA_LOKI_USERNAME}:$${GRAFANA_API_KEY}@logs-prod-eu-west-0.grafana.net/loki/api/v1/push
+  external_labels:
+    instance_type: $${INSTANCE_TYPE}
+    instance_id: $${INSTANCE_ID}
+    instance_ip: $${INSTANCE_IP}
+    instance_image: $${INSTANCE_IMAGE}
+    datacenter: $${INSTANCE_DATACENTER}
+    instance: $${HOSTNAME}
+
+scrape_configs:
+  - job_name: container
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+    relabel_configs:
+      - source_labels: ["__meta_docker_container_name"]
+        regex: "/(.*)"
+        target_label: "container"

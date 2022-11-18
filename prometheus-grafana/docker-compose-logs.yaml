@@ -1,0 +1,22 @@
+version: '2.4'
+
+services:
+  promtail:
+    image: grafana/promtail:2.7.0
+    command: |
+      -config.file=/etc/promtail/promtail.yaml
+    environment:
+      - INSTANCE_TYPE=${INSTANCE_TYPE}
+      - INSTANCE_ID=${INSTANCE_ID}
+      - INSTANCE_IP=${INSTANCE_IP}
+      - INSTANCE_IMAGE=${INSTANCE_IMAGE}
+      - INSTANCE_DATACENTER=${INSTANCE_DATACENTER}
+      - HOSTNAME=${HOSTNAME}
+    volumes:
+      - ./rootfs/etc/promtail:/etc/promtail
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  default:
+    name: o11ystack
+    external: true

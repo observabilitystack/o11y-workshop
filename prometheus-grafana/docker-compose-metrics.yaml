@@ -1,0 +1,40 @@
+version: '2.4'
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.40.1
+    command: |
+      --config.file=/etc/prometheus/prometheus.yaml
+      --storage.tsdb.retention.size=2GB
+      --web.enable-lifecycle
+      --web.enable-admin-api
+      --enable-feature=memory-snapshot-on-shutdown
+    volumes:
+      - ./rootfs/etc/prometheus:/etc/prometheus
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prometheus.rule=Host(`prometheus.${HOSTNAME}.${DOMAIN_NAME}`)
+      - traefik.http.routers.prometheus.service=prometheus
+      - traefik.http.services.prometheus.loadbalancer.server.port=9090
+
+  node_exporter:
+    image: prom/node-exporter:v1.4.0
+    command: |
+      --path.rootfs=/host
+      --collector.filesystem.ignored-mount-points="^/(sys|proc|dev|run|var/lib/docker.*)($|/)"
+      --collector.netdev.device-exclude="^(docker[0-9]|vboxnet[0-9]|br-.+|veth.+)$"
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+
+  postgresql_exporter:
+    image: prometheuscommunity/postgres-exporter:v0.11.1
+    environment:
+      - DATA_SOURCE_NAME="postgresql://petclinic:petclinic@postgresql:5432/petclinic?sslmode=disable"
+
+networks:
+  default:
+    name: o11ystack
+    external: true
