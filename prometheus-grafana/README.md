@@ -1,75 +1,130 @@
-# Grafana - Integration
+# 🪡 Grafana - Integration
 
+<img src="../images/grafana-signup-01.jpg" width="250" style="float: right; margin-left: 1em;">
 
-* Sign up for a free account grafana.com
+Before we start, sign up for a [free account grafana.com](https://grafana.com/auth/sign-up/create-user?pg=hp&plcmt=hero-btn1&cta=create-free-account)
 
-<img src="../images/grafana-signup-01.jpg" width="250">
-<img src="../images/grafana-signup-02.jpg" width="250">
-
-
-### Prepare environment
+### 🔬 Prepare lab environment
 
 This writes some instance metadata into a Docker Compose environment
-file. We'll pick those values up when launching Docker containers.
+file. We'll use those values when launching Docker containers for tagging
+logs and traces.
 
 ```
-./instance-metadata.sh > .env
+cd ~/o11y-workshop/prometheus-grafana
+../instance-metadata.sh > .env
 ```
 
-## Metrics Integration via local Prometheus
+## 📖 Metrics (via a local Prometheus)
 
-1. Prepare the Prometheus configuration by templating using `envsubst`:
+> 💡 This deplyoment pattern is common to overcome the rather limited
+> free metrics volume in Grafana Cloud
+
+<img src="../images/grafana-configure-prometheus.jpg" width="400" style="float: right; margin-left: 1em;">
+
+### Launch a local Prometheus
+
+Apply the instance metadata we created above to prepare the
+Prometheus configuration. We are templating using `envsubst`:
 
 ```
-$ envsubst < rootfs/etc/prometheus/prometheus.yaml.template > rootfs/etc/prometheus/prometheus.yaml
+set -a; source .env; set +a
+envsubst < rootfs/etc/prometheus/prometheus.yaml.template > rootfs/etc/prometheus/prometheus.yaml
 ```
 
-2. Launch Prometheus
+Now launch Prometheus
 
 ```
 docker-compose -f docker-compose-metrics.yaml up -d
 ```
 
-3. Verify that [your Prometheus is running](https://prometheus.PETNAME.workshop.o11ystack.org/). Check what targets and services
-he discovered OOTB
+Verify that [your Prometheus is running](https://prometheus.PETNAME.workshop.o11ystack.org/). Check what targets and services
+he discovered out of the box.
 
-4. Configure your local Prometheus as data source in Grafana Cloud
+### Configure Grafana Cloud
 
-<img src="../images/grafana-configure-prometheus.jpg" width="400">
+<img src="../images/grafana-node-exporter-dashboard.jpg" width="400" style="float: right; margin-left: 1em;">
 
-5. Import Dashboards into Grafana Cloud
+[Log into your Grafana cloud account](https://grafana.com/auth/sign-in)
+and launch Grafana.
 
-* https://grafana.com/grafana/dashboards/1860-node-exporter-full/
-* https://grafana.com/grafana/dashboards/4701-jvm-micrometer/
-* https://grafana.com/grafana/dashboards/9628-postgresql-database/
-* https://grafana.com/grafana/dashboards/11462-traefik-2/
+#### Configure Prometheus Data Source
 
-<img src="../images/grafana-node-exporter-dashboard.jpg" width="400">
 
-## Log Management
+Go to `Configuration -> Data Sources` and add a new Prometheus Data Source.
+Make it default and use the url `https://prometheus.PETNAME.workshop.o11ystack.org`.
 
-<img src="../images/grafana-loki-01.jpg" width="400">
+> You can verify that your metrics are available in Grafana using the `Explore` section.
 
-Now, append your personal secrets to the environment file
+#### Import Dashboards into Grafana Cloud
+
+
+In Grafana, import the following Dashboards using their Grafana Cloud ID
+
+* `1860` - [Node Exporter](https://grafana.com/grafana/dashboards/1860-node-exporter-full/)
+* `4701`- [JVM Micrometer](https://grafana.com/grafana/dashboards/4701-jvm-micrometer/)
+* `9628` - [Postgresql](https://grafana.com/grafana/dashboards/9628-postgresql-database/)
+* `11462` - [Traefik 2](https://grafana.com/grafana/dashboards/11462-traefik-2/)
+
+
+## 🪵 Log Management
+
+<img src="../images/grafana-loki-01.jpg" width="400" style="float: right; margin-left: 1em;">
+
+[Log into your Grafana cloud account](https://grafana.com/auth/sign-in)
+and select `Loki -> Details`. Here you'll find the credentials you need
+to ingest log data to Grafana Loki.
+
+Append these personal secrets to the environment file:
 
 ```
 echo "GRAFANA_LOKI_USERNAME=32.. >> .env"
 echo "GRAFANA_API_KEY=eyJrIjoi.. >> .env"
 ```
 
-https://grafana.com/orgs/workshopdevopscon2022
-https://grafana.com/orgs/workshopdevopscon2022/hosted-logs/322443#sending-logs
+We use Promtail as log ingester which we launch in a Docker container
 
+```
+docker-compose -f docker-compose-logs.yaml up
+```
 
-## Tracing
+> You can verify that your logs are available in Grafana using the `Explore` section.
 
-Now, append your personal secrets to the environment file
+## 🥷 Tracing
+
+[Log into your Grafana cloud account](https://grafana.com/auth/sign-in)
+and select `Tempo -> Details`. Here you'll find the credentials you need
+to ingest log data to Grafana Tempo.
+
+Append these personal secrets to the environment file:
 
 ```
 echo "GRAFANA_TEMPO_USERNAME=3.. >> .env"
 ```
 
-sudo curl -sLfo /usr/local/share/opentelemetry-javaagent.jar "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.19.2/opentelemetry-javaagent.jar"
+We'll launch a a Grafana Agent as tracing proxy that authenticates against Grafana
+Cloud.
+
+```
+docker-compose -f docker-compose-tracing.yaml up
+```
+
+> This proxy pattern is pretty common (pretty much like a federated Prometheus)
+
+#### Instrument the Petclinic
+
+Grafana uses the bare Open Telemetry Java Agent to instrument an application.
+We can download a recent release from GitHub.
+
+```bash
+cd ~/o11y-workshop/spring-petclinic
+sudo curl -sLfo /usr/local/share/opentelemetry-javaagent.jar \
+    "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.19.2/opentelemetry-javaagent.jar"
+```
+
+Now we have to add several environment variables to the Petclinic's Docker Compose
+file. We also need to mount the downloaded OpenTelemetry agent into the Docker
+container.
 
 ```yaml
 environment:
@@ -80,4 +135,16 @@ environment:
     - JAVA_TOOL_OPTIONS="-javaagent:/usr/local/share/opentelemetry-javaagent.jar"
 volumes:
   - /usr/local/share/opentelemetry-javaagent.jar:/usr/local/share/opentelemetry-javaagent.jar
+```
+
+> The Grafana Agent can be reached via a Docker network as `grafana_agent`.
+
+## 🚮 Uninstall
+
+Shut down all Docker containers we just launched.
+
+```bash
+docker-compose -f docker-compose-metrics.yaml down
+docker-compose -f docker-compose-logs.yaml down
+docker-compose -f docker-compose-tracing.yaml down
 ```
