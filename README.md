@@ -30,25 +30,31 @@ feasable.
 We are going to use the Spring Petclinic application as our test
 application.
 
-### #1: 🪡 [Prometheus & Grafana](prometheus-grafana/README.md)
+### 🪡 [Prometheus & Grafana](prometheus-grafana/README.md)
 
 This candidate is very close to a self-hosted open source experience.
 We are going to host a Prometheus instance ourselves but leverage the
 Grafana Cloud for displaying dashboards, metrics and traces.
 
-### #2: 🦆 [Elastic Stack](elastic/README.md)
+### 🦆 [Elastic Stack](elastic/README.md)
 
 The Elastic Stack is a well known for it's log analysis capabilities.
 But there's more! We'll leverage a Trial Elastic Cloud offering for this
 test drive.
 
-### #3: [New Relic](newrelic/README.md)
+### 💰 [New Relic](newrelic/README.md)
 
 New Relic was one of the first APM SaaS solutions available and has
 a great reputation. We'll leverage their free trial.
 
 ## 🏎️ Further test drive candidates
 
-### Sentry
+### 🛬 [Java Flight Recorder](java-flight-recorder/README.md)
 
-### Java Flight Recorder
+The Java Flight Recorder ships along recent JDKs, is free and
+offers spectacular insights into a running (or dead) Java
+application.
+
+### ⚠️ Sentry
+
+### 🐝 Honeycomb

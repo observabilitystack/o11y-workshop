@@ -1,4 +1,4 @@
-# New Relic integration
+# 💰 New Relic integration
 
 Sign up for a new [New Relic trial](https://newrelic.com/de/signup). Log into
 New Relic, click `Add data -> Java` and copy your New Relic license key.
