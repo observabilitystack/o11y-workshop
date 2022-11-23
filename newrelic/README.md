@@ -1,15 +1,35 @@
 # New Relic integration
 
+Sign up for a new [New Relic trial](https://newrelic.com/de/signup). Log into
+New Relic, click `Add data -> Java` and copy your New Relic license key.
+
 ```bash
-export NEW_RELIC_LICENSE_KEY="eu01xx73..."
+cd ~/o11y-workshop/newrelic
+echo "NEW_RELIC_LICENSE_KEY=eu01xx73..." > .env
 ```
 
-## Java application agent
+## 🥷 Tracing
 
-```
-curl -sLfo /tmp/newrelic-java.zip https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip
+Download and store the New Relic Java agent
+
+```bash
+cd ~/o11y-workshop/newrelic
+curl -sLfo /tmp/newrelic-java.zip \
+    https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip
 sudo unzip /tmp/newrelic-java.zip -d /usr/local/share
 ```
+
+#### 🐾 Instrument the Petclinic
+
+Switch to the Petclinic directory ...
+
+```bash
+cd ~/o11y-workshop/spring-petclinic
+cp -f ~/o11y-workshop/newrelic/.env .env
+```
+
+... and configure Petclinic's Docker Compose file. We also need to mount the downloaded
+New Relic agent into the Docker container.
 
 ```yaml
 environment:
@@ -21,7 +41,17 @@ volumes:
   - /usr/local/share/newrelic:/usr/local/share/newrelic
 ```
 
-# System & infrastructure agent
+## 📖 Metrics and 🪵 Logs
+
+New Relic supplies the New Relic Agent that takes care od system and infrastructure metrics
+as well as log shipping. We are going to install it. First, make our secrets available in
+the current terminal
+
+```
+set -a; source .env; set +a
+```
+
+Then install the agent
 
 ```
 echo "license_key: ${NEW_RELIC_LICENSE_KEY}" | sudo tee -a /etc/newrelic-infra.yml
@@ -31,7 +61,11 @@ sudo apt-get update
 sudo apt-get install newrelic-infra -y
 ```
 
-## Postgres integration
+> Verify in the New Relic UI that your infrastructure metrics are available
+
+#### 💾 Postgres integration
+
+Next, install the Postgresql extension to monitor our Postgres database.
 
 ```
 sudo apt-get install nri-postgresql -y
@@ -44,7 +78,7 @@ sudo sed -i 's/# DATABASE: postgres/DATABASE: petclinic/g' /etc/newrelic-infra/i
 systemctl restart newrelic-infra.service
 ```
 
-# Remove New Relic
+## 🚮 Uninstall
 
 ```
 sudo apt-get remove -y newrelic-infra nri-postgresql

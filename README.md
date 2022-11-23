@@ -18,9 +18,9 @@ TBD
 We are going to give several observability suites a test drive. We'll
 integrate
 
-* APM (application performance monitoring) a.k.a. Tracing
-* Metrics
-* Logs
+* _APM (application performance monitoring) a.k.a. Tracing_
+* _Metrics_
+* _Logs_
 
 We are going to use SaaS cloud offerings as far as possbile and
 feasable.
@@ -42,7 +42,10 @@ The Elastic Stack is a well known for it's log analysis capabilities.
 But there's more! We'll leverage a Trial Elastic Cloud offering for this
 test drive.
 
-### #3: [New Relic](new-relic/README.md)
+### #3: [New Relic](newrelic/README.md)
+
+New Relic was one of the first APM SaaS solutions available and has
+a great reputation. We'll leverage their free trial.
 
 ## 🏎️ Further test drive candidates
 
