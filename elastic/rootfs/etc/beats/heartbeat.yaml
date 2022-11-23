@@ -1,0 +1,57 @@
+heartbeat.monitors:
+  - type: icmp
+    name: Docker containers
+    schedule: "*/5 * * * * * *"
+    hosts:
+      [
+        "traefik",
+        "petclinic",
+        "postgresql"
+      ]
+    ipv4: true
+    ipv6: true
+    mode: any
+    timeout: 3s
+    wait: 1s
+
+  #Monitor Petclinic
+  - type: http
+    name: Petclinic
+    enabled: true
+    schedule: "@every 5s"
+    urls: ["https://petclinic.${HOSTNAME}.${DOMAIN_NAME}"]
+    ipv4: true
+    ipv6: true
+    mode: any
+    timeout: 3s
+    check.request:
+      method: "GET"
+    check.response:
+      status: 200
+
+  #Monitor Traefik
+  - type: http
+    name: Traefik
+    enabled: true
+    schedule: "@every 5s"
+    urls: ["https://traefik.${HOSTNAME}.${DOMAIN_NAME}"]
+    ipv4: true
+    ipv6: true
+    mode: any
+    timeout: 3s
+    check.request:
+      method: "GET"
+    check.response:
+      status: 200
+
+processors:
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+
+monitoring.enabled: true
+
+cloud.id: ${ELASTIC_CLOUD_ID}
+cloud.auth: ${ELASTIC_CLOUD_USER}:${ELASTIC_CLOUD_PASSWORD}
+
+logging.to_files: false

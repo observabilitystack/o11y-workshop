@@ -1,0 +1,21 @@
+version: '2.4'
+
+services:
+  heartbeat:
+    image: docker.elastic.co/beats/heartbeat:8.5.2
+    user: ${USER_ID}:${GROUP_ID}
+    environment:
+      - ELASTIC_CLOUD_ID=${ELASTIC_CLOUD_ID}
+      - ELASTIC_CLOUD_USER=${ELASTIC_CLOUD_USER}
+      - ELASTIC_CLOUD_PASSWORD=${ELASTIC_CLOUD_PASSWORD}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - HOSTNAME=${HOSTNAME}
+    volumes:
+      - ./rootfs/etc/beats/heartbeat.yaml:/usr/share/heartbeat/heartbeat.yml
+      - ./rootfs/var/lib/beats/data:/usr/share/heartbeat/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  default:
+    name: o11ystack
+    external: true
