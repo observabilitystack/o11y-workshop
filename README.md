@@ -30,13 +30,17 @@ feasable.
 We are going to use the Spring Petclinic application as our test
 application.
 
-### #1: [Prometheus & Grafana](prometheus-grafana/README.md)
+### #1: 🪡 [Prometheus & Grafana](prometheus-grafana/README.md)
 
 This candidate is very close to a self-hosted open source experience.
 We are going to host a Prometheus instance ourselves but leverage the
 Grafana Cloud for displaying dashboards, metrics and traces.
 
-### #2: [Elastic Stack](elastic/README.md)
+### #2: 🦆 [Elastic Stack](elastic/README.md)
+
+The Elastic Stack is a well known for it's log analysis capabilities.
+But there's more! We'll leverage a Trial Elastic Cloud offering for this
+test drive.
 
 ### #3: [New Relic](new-relic/README.md)
 

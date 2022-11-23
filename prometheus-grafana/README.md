@@ -111,7 +111,7 @@ docker-compose -f docker-compose-tracing.yaml up
 
 > This proxy pattern is pretty common (pretty much like a federated Prometheus)
 
-#### Instrument the Petclinic
+#### 🐾 Instrument the Petclinic
 
 Grafana uses the bare Open Telemetry Java Agent to instrument an application.
 We can download a recent release from GitHub.
