@@ -11,7 +11,9 @@ TBD
 
 ## 🔬 Your test laboratory instance
 
-TBD
+Getting started with [your own lab instance](lab-instance.md).
+
+![alt](images/lab-instance.png)
 
 ## 🏎️ Test drive observability suites
 
