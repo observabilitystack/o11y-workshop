@@ -139,6 +139,35 @@ volumes:
 
 > The Grafana Agent can be reached via a Docker network as `grafana_agent`.
 
+## 🌍 Uptime monitoring
+
+Create a [free account at ping7.io](https://ping7.io/login) and save
+your API token.
+
+![alt](../images/grafana-ping7.png)
+
+Add your API token to your environment secrets.
+
+```
+cd ~/o11y-workshop/prometheus-grafana
+echo "PING7IO_TOKEN=feb4453b-... >> .env"
+```
+
+Now append a new scrape job to your existing Prometheus configuration.
+Restart Prometheus afterwards.
+
+```bash
+set -a; source .env; set +a
+envsubst < rootfs/etc/prometheus/prometheus.ping7io.yaml.template \
+    >> rootfs/etc/prometheus/prometheus.yaml
+```
+
+Check that your uptime metrics are available in Grafana. You
+can add a [Blackbox-Exporter Dashboard to Grafana](https://github.com/ping7io/examples/blob/main/dashboards/blackbox-exporter-ping7.io.json)
+in order to visualize those.
+
+![alt](../images/grafana-ping7-dashboard.png)
+
 ## 🚮 Uninstall
 
 Shut down all Docker containers we just launched.

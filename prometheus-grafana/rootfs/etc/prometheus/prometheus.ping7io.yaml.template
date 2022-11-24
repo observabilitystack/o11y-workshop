@@ -1,0 +1,24 @@
+
+  - job_name: blackbox
+    metrics_path: /blackbox/probe
+    scheme: https
+    authorization:
+      credentials: ${PING7IO_TOKEN}
+    params:
+      module: [http_2xx]
+      location:
+        - eu-central
+        - eu-north
+        - us-east
+    static_configs:
+      - targets:
+          - https://traefik.${HOSTNAME}.${DOMAIN_NAME}
+          - https://petclinic.${HOSTNAME}.${DOMAIN_NAME}
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - source_labels: [__address__]
+        target_label: __address__
+        replacement: check.ping7.io
