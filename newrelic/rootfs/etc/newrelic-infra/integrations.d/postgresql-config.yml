@@ -1,0 +1,19 @@
+integrations:
+  - name: nri-postgresql
+    env:
+      USERNAME: petclinic
+      PASSWORD: petclinic
+      HOSTNAME: localhost
+      PORT: "5432"
+      COLLECTION_LIST: '["petclinic"]'
+      COLLECT_DB_LOCK_METRICS: "false"
+      COLLECT_BLOAT_METRICS: "true"
+      ENABLE_SSL: "false"
+      TRUST_SERVER_CERTIFICATE: "false"
+      TIMEOUT: "10"
+
+    interval: 15s
+    labels:
+      env: production
+      role: postgresql
+    inventory_source: config/postgresql

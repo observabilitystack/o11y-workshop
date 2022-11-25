@@ -3,6 +3,8 @@
 Sign up for a new [New Relic trial](https://newrelic.com/de/signup). Log into
 New Relic, click `Add data -> Java` and copy your New Relic license key.
 
+![alt](../images/newrelic-api-key.png)
+
 ```bash
 cd ~/o11y-workshop/newrelic
 echo "NEW_RELIC_LICENSE_KEY=eu01xx73..." > .env
@@ -41,6 +43,8 @@ volumes:
   - /usr/local/share/newrelic:/usr/local/share/newrelic
 ```
 
+![alt](../images/newrelic-apm.png)
+
 ## 📖 Metrics and 🪵 Logs
 
 New Relic supplies the New Relic Agent that takes care od system and infrastructure metrics
@@ -48,6 +52,7 @@ as well as log shipping. We are going to install it. First, make our secrets ava
 the current terminal
 
 ```
+cd ~/o11y-workshop/newrelic
 set -a; source .env; set +a
 ```
 
@@ -59,9 +64,12 @@ curl -s https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gp
 printf "deb https://download.newrelic.com/infrastructure_agent/linux/apt bullseye main" | sudo tee -a /etc/apt/sources.list.d/newrelic-infra.list
 sudo apt-get update
 sudo apt-get install newrelic-infra -y
+systemctl status newrelic-infra.service
 ```
 
 > Verify in the New Relic UI that your infrastructure metrics are available
+
+![alt](../images/newrelic-entities-all.png)
 
 #### 💾 Postgres integration
 
@@ -69,14 +77,14 @@ Next, install the Postgresql extension to monitor our Postgres database.
 
 ```
 sudo apt-get install nri-postgresql -y
-sudo cp /etc/newrelic-infra/integrations.d/postgresql-config.yml.sample /etc/newrelic-infra/integrations.d/postgresql-config.yml
-sudo sed -i 's/USERNAME: postgres/USERNAME: petclinic/g' /etc/newrelic-infra/integrations.d/postgresql-config.yml
-sudo sed -i "s/PASSWORD: 'pass'/PASSWORD: petclinic/g" /etc/newrelic-infra/integrations.d/postgresql-config.yml
-sudo sed -i 's/HOSTNAME: psql-sample.localnet/HOSTNAME: localhost/g' /etc/newrelic-infra/integrations.d/postgresql-config.yml
-sudo sed -i 's/PORT: "6432"/PORT: "5432"/g' /etc/newrelic-infra/integrations.d/postgresql-config.yml
-sudo sed -i 's/# DATABASE: postgres/DATABASE: petclinic/g' /etc/newrelic-infra/integrations.d/postgresql-config.yml
-systemctl restart newrelic-infra.service
+sudo cp rootfs/etc/newrelic-infra/integrations.d/postgresql-config.yml \
+    /etc/newrelic-infra/integrations.d/postgresql-config.yml
+sudo systemctl restart newrelic-infra.service
 ```
+
+### 🌍 Synthetic uptime monitoring
+
+![alt](../images/newrelic-synthetic-monitors.png)
 
 ## 🚮 Uninstall
 
