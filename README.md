@@ -49,14 +49,12 @@ test drive.
 New Relic was one of the first APM SaaS solutions available and has
 a great reputation. We'll leverage their free trial.
 
-## 🏎️ Further test drive candidates
-
 ### 🛬 [Java Flight Recorder](java-flight-recorder/README.md)
 
 The Java Flight Recorder ships along recent JDKs, is free and
 offers spectacular insights into a running (or dead) Java
 application.
 
-### ⚠️ Sentry
-
 ### 🐝 Honeycomb
+
+### ⚠️ Sentry

@@ -20,9 +20,15 @@ JAVA_TOOL_OPTIONS="" jcmd $(pgrep java) JFR.start name=profile duration=60s file
 JAVA_TOOL_OPTIONS="" jcmd $(pgrep java) JFR.check
 ```
 
-Then, move it outside the Docker container on to the host system. From here
-you should be able to transfer it to your local machine.
+Then, move it outside the Docker container on to the host system.
 
 ```bash
-docker cp spring-petclinic-petclinic-1:/current.jfr ~/$(hostname)-$(date '+%Y-%m-%d_%H-%M-%S').jfr
+docker cp spring-petclinic-petclinic-1:/current.jfr \
+    ~/o11y-workshop/java-flight-recorder/$(hostname)-$(date '+%Y-%m-%d_%H-%M-%S').jfr
 ```
+
+From here you can download the file via VSCode (`Right click -> Download`).
+
+## ✨ Analyze a flight recording
+
+Install [JDK Mission Control](https://www.oracle.com/java/technologies/javase/products-jmc8-downloads.html) on your local laptop. Open the downloaded JFR recording with _JDK Mission Control_.
