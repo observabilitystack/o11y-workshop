@@ -6,12 +6,8 @@ services:
     command: |
       -config.file=/etc/agent/agent.yaml
     environment:
-      - INSTANCE_TYPE=${INSTANCE_TYPE}
-      - INSTANCE_ID=${INSTANCE_ID}
-      - INSTANCE_IP=${INSTANCE_IP}
-      - INSTANCE_IMAGE=${INSTANCE_IMAGE}
-      - INSTANCE_DATACENTER=${INSTANCE_DATACENTER}
-      - HOSTNAME=${HOSTNAME}
+      - GRAFANA_TEMPO_USERNAME=${GRAFANA_TEMPO_USERNAME}
+      - GRAFANA_API_KEY=${GRAFANA_API_KEY}
     volumes:
       - ./rootfs/etc/agent:/etc/agent
 

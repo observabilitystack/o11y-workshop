@@ -135,7 +135,7 @@ to ingest log data to Grafana Tempo.
 Append these personal secrets to the environment file:
 
 ```
-echo "GRAFANA_TEMPO_USERNAME=3.. >> .env"
+echo "GRAFANA_TEMPO_USERNAME=3.." >> .env
 ```
 
 We'll launch a a Grafana Agent as tracing proxy that authenticates against Grafana
