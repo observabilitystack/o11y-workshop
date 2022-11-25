@@ -13,7 +13,6 @@ the `spring-petclinic` folder. SSH into your machine and
 start the Docker build.
 
 ```
-$ ssh PETNAME.workshop.o11ystack.org
 $ cd ~/spring-petclinic
 $ docker build -t observabilitystack/spring-petclinic .
 ```

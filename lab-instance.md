@@ -8,8 +8,7 @@ with. Here's what we have for your:
 * Each instance is built using _Terraform_ and _Ansible_. Infrastructure
   as code is available in the [`workshop-cluster`](https://github.com/observabilitystack/workshop-cluster)
   repository.
-* Each instance is a `cpx21` instance at _Hetzner_
-* Each instance has a _PETNAME_ ([one of these](https://github.com/observabilitystack/workshop-cluster/blob/workshops/devopscon-munich-2022/infrastructure/cluster/variables.tf) like `stirring-goshawk`)
+* Each instance has a _PETNAME_ (e.g. `stirring-goshawk`)
 * Instances can be reached at `PETNAME.workshop.o11ystack.org` and
   `*.PETNAME.workshop.o11ystack.org` (wildcard DNS entry)
 
@@ -18,9 +17,9 @@ with. Here's what we have for your:
 On your instance we have prepared a Docker setup:
 
 * Vital Docker services are launched as `SystemD` service units
-  (`traefik.server` and `code-server.service`).
+  (`traefik.service` and `code-server.service`).
 * All Docker instances communicate via the
-  [`o11ystack` Docker network](https://github.com/observabilitystack/workshop-cluster/blob/workshops/devopscon-munich-2022/infrastructure/cluster/cloud-init/docker.yaml#L41).
+  [`o11ystack` Docker network](https://github.com/observabilitystack/workshop-cluster/blob/workshops/devopscon-munich-2022/infrastructure/cluster/cloud-init/docker.yaml#L44).
 * _Traefik_ acts as a HTTPS reverse proxy. All traffic is distributed
   on the host via the `o11ystack` Docker network. _Traefik_ picks up
   reverse proxy targets via Docker labels.
