@@ -23,6 +23,7 @@ integrate
 * _APM (application performance monitoring) a.k.a. Tracing_
 * _Metrics_
 * _Logs_
+* _Uptime monitoring_
 
 We are going to use SaaS cloud offerings as far as possbile and
 feasable.
@@ -52,7 +53,7 @@ a great reputation. We'll leverage their free trial.
 ### 🛬 [Java Flight Recorder](java-flight-recorder/README.md)
 
 The Java Flight Recorder ships along recent JDKs, is free and
-offers spectacular insights into a running (or dead) Java
+offers spectacular insights into a running (or crashed) Java
 application.
 
 ### 🐝 [Honeycomb](honeycomb/README.md)
