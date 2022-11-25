@@ -97,8 +97,8 @@ to ingest log data to Grafana Loki.
 Append these personal secrets to the environment file:
 
 ```
-echo "GRAFANA_LOKI_USERNAME=32.. >> .env"
-echo "GRAFANA_API_KEY=eyJrIjoi.. >> .env"
+echo "GRAFANA_LOKI_USERNAME=32.." >> .env
+echo "GRAFANA_API_KEY=eyJrIjoi.." >> .env
 ```
 
 We use Promtail as log ingester which we launch in a Docker container

@@ -5,6 +5,7 @@ services:
     image: grafana/promtail:2.7.0
     command: |
       -config.file=/etc/promtail/promtail.yaml
+      -config.expand-env=true
     environment:
       - INSTANCE_TYPE=${INSTANCE_TYPE}
       - INSTANCE_ID=${INSTANCE_ID}
@@ -12,6 +13,8 @@ services:
       - INSTANCE_IMAGE=${INSTANCE_IMAGE}
       - INSTANCE_DATACENTER=${INSTANCE_DATACENTER}
       - HOSTNAME=${HOSTNAME}
+      - GRAFANA_API_KEY=${GRAFANA_API_KEY}
+      - GRAFANA_LOKI_USERNAME=${GRAFANA_LOKI_USERNAME}
     volumes:
       - ./rootfs/etc/promtail:/etc/promtail
       - /var/run/docker.sock:/var/run/docker.sock

@@ -6,14 +6,14 @@ positions:
   filename: /tmp/positions.yaml
 
 client:
-  url: https://$${GRAFANA_LOKI_USERNAME}:$${GRAFANA_API_KEY}@logs-prod-eu-west-0.grafana.net/loki/api/v1/push
+  url: https://${GRAFANA_LOKI_USERNAME}:${GRAFANA_API_KEY}@logs-prod-eu-west-0.grafana.net/loki/api/v1/push
   external_labels:
-    instance_type: $${INSTANCE_TYPE}
-    instance_id: $${INSTANCE_ID}
-    instance_ip: $${INSTANCE_IP}
-    instance_image: $${INSTANCE_IMAGE}
-    datacenter: $${INSTANCE_DATACENTER}
-    instance: $${HOSTNAME}
+    instance_type: ${INSTANCE_TYPE}
+    instance_id: ${INSTANCE_ID}
+    instance_ip: ${INSTANCE_IP}
+    instance_image: ${INSTANCE_IMAGE}
+    datacenter: ${INSTANCE_DATACENTER}
+    instance: ${HOSTNAME}
 
 scrape_configs:
   - job_name: container
