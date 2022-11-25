@@ -55,6 +55,9 @@ The Java Flight Recorder ships along recent JDKs, is free and
 offers spectacular insights into a running (or dead) Java
 application.
 
-### 🐝 Honeycomb
+### 🐝 [Honeycomb](honeycomb/README.md)
+
+Honeycomb is the company behind some of the authors of
+_Observability Engineering_.
 
 ### ⚠️ Sentry

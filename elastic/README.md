@@ -12,7 +12,7 @@ to select a european region for hosting.
 Spinning up your instances takes about 5-10 minutes. After that,
 [log into Elastic Cloud](https://cloud.elastic.co/)
 
-## 🥷 Java APM
+## 🥷 Elastic Java APM
 
 We'll start with application performance monitoring. First, download the Elastic Java Agent
 
