@@ -186,7 +186,7 @@ Add your API token to your environment secrets.
 
 ```
 cd ~/o11y-workshop/prometheus-grafana
-echo "PING7IO_TOKEN=feb4453b-... >> .env"
+echo "PING7IO_TOKEN=feb4453b-..." >> .env
 ```
 
 Now append a new scrape job to your existing Prometheus configuration.
