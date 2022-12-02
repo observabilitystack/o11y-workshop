@@ -60,5 +60,3 @@ application.
 
 Honeycomb is the company behind some of the authors of
 _Observability Engineering_.
-
-### ⚠️ Sentry
