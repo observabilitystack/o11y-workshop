@@ -175,5 +175,5 @@ Stop the heartbeat Docker container and remove the `elastic-agent`.
 
 ```
 docker-compose -f docker-compose-heartbeat.yaml down
-dpkg -P elastic-agent
+sudo dpkg -P elastic-agent
 ```
