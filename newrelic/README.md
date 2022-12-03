@@ -27,10 +27,10 @@ Switch to the Petclinic directory ...
 
 ```bash
 cd ~/o11y-workshop/spring-petclinic
-cp -f ~/o11y-workshop/newrelic/.env .env
+cat ~/o11y-workshop/newrelic/.env >> ~/o11y-workshop/spring-petclinic/.env
 ```
 
-... and configure Petclinic's Docker Compose file. We also need to mount the downloaded
+... and configure your Petclinic's Docker Compose file. We also need to mount the downloaded
 New Relic agent into the Docker container.
 
 ```yaml
