@@ -72,4 +72,3 @@ Use the Terminal in Visual Studio Code to connect to your instance.
 We have checked out the following projects in your root directory.
 
 * `/o11y-workshop` - this repository
-* `/spring-petclinic` - our fork of the [Spring Petclinic](https://github.com/observabilitystack/spring-petclinic)

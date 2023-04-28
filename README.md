@@ -28,7 +28,7 @@ integrate
 We are going to use SaaS cloud offerings as far as possbile and
 feasable.
 
-### 📦 [Build and deploy the example application](spring-petclinic/README.md)
+### 📦 [Deploy the example application](spring-petclinic/README.md)
 
 We are going to use the Spring Petclinic application as our test
 application.
@@ -55,8 +55,3 @@ a great reputation. We'll leverage their free trial.
 The Java Flight Recorder ships along recent JDKs, is free and
 offers spectacular insights into a running (or crashed) Java
 application.
-
-### 🐝 [Honeycomb](honeycomb/README.md)
-
-Honeycomb is the company behind some of the authors of
-_Observability Engineering_.

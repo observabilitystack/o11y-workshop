@@ -2,7 +2,7 @@ version: '2.4'
 
 services:
   petclinic:
-    image: observabilitystack/spring-petclinic:latest
+    image: ghcr.io/observabilitystack/spring-petclinic:latest
     environment:
       - spring_profiles_active=postgres
       - POSTGRES_URL=jdbc:postgresql://postgresql/petclinic

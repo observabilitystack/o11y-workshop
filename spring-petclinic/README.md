@@ -4,26 +4,16 @@ The Spring framework provides a well know showcase named
 _Petclinic_. It's a easy CRUD web application showcasing the
 capabilities of the Spring Boot framework.
 
-We created our [own fork of the project](https://github.com/observabilitystack/spring-petclinic).
-
-### 📦 Build the Petclinic
-
-Our project fork is already checked out on your instance in
-the `spring-petclinic` folder. SSH into your machine and
-start the Docker build.
+We created our [own fork of the project](https://github.com/observabilitystack/spring-petclinic). An up-to-date image
+is available at
 
 ```
-$ cd ~/spring-petclinic
-$ docker build -t observabilitystack/spring-petclinic .
+ghcr.io/observabilitystack/spring-petclinic:latest
 ```
-
-> Building takes a while (~5m) and will store the Docker
-> image in your instance's Docker build cache.
 
 ### 🚚 Deploy the Petclinic
 
-After building the Petclinic you can launch the Docker
-container. We prepared a _Docker Compose_ file for that.
+We prepared a _Docker Compose_ file for launching the Petclinic.
 
 ```
 $ cd ~/o11y-workshop/spring-petclinic
