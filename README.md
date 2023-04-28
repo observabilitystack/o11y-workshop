@@ -1,6 +1,6 @@
 # 🔎 (Open Source) Observability Test Drive Workshop
 
-> 📍 DevOpsCon Munich 2022
+> 📍 DevOpsCon Berlin 2023
 
 This is the code and slides we'll be using during our observability
 workshop.
@@ -44,11 +44,6 @@ Grafana Cloud for displaying dashboards, metrics and traces.
 The Elastic Stack is a well known for it's log analysis capabilities.
 But there's more! We'll leverage a Trial Elastic Cloud offering for this
 test drive.
-
-### 💰 [New Relic](newrelic/README.md)
-
-New Relic was one of the first APM SaaS solutions available and has
-a great reputation. We'll leverage their free trial.
 
 ### 🛬 [Java Flight Recorder](java-flight-recorder/README.md)
 
