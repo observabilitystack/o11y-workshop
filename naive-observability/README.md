@@ -20,3 +20,9 @@ top
 
 > Maybe add explicit bugs (temp files, memory leak) via
 > `WebFilter` in Petclinic?
+
+```
+curl https://petclinic.credible-alpaca.workshop.o11ystack.org/bugs/memory
+curl https://petclinic.credible-alpaca.workshop.o11ystack.org/bugs/cpu
+curl https://petclinic.credible-alpaca.workshop.o11ystack.org/bugs/locking
+```
