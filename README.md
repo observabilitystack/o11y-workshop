@@ -33,20 +33,25 @@ feasable.
 We are going to use the Spring Petclinic application as our test
 application.
 
+### 📦 [Naive observability](spring-petclinic/README.md)
+
+What native tools do we have on our machine to get an overview
+what's going on?
+
 ### 🪡 [Prometheus & Grafana](prometheus-grafana/README.md)
 
 This candidate is very close to a self-hosted open source experience.
 We are going to host a Prometheus instance ourselves but leverage the
 Grafana Cloud for displaying dashboards, metrics and traces.
 
-### 🦆 [Elastic Stack](elastic/README.md)
-
-The Elastic Stack is a well known for it's log analysis capabilities.
-But there's more! We'll leverage a Trial Elastic Cloud offering for this
-test drive.
-
 ### 🛬 [Java Flight Recorder](java-flight-recorder/README.md)
 
 The Java Flight Recorder ships along recent JDKs, is free and
 offers spectacular insights into a running (or crashed) Java
 application.
+
+### 🦆 [Elastic Stack](elastic/README.md)
+
+The Elastic Stack is a well known for it's log analysis capabilities.
+But there's more! We'll leverage a Trial Elastic Cloud offering for this
+test drive.
