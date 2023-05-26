@@ -1,0 +1,20 @@
+version: '2.4'
+
+services:
+  prometheus:
+    image: prom/alertmanager:v0.25.0
+    command: |
+      --config.file=/etc/prometheus/alertmanager.yaml \
+      --storage.path=/data
+    volumes:
+      - ./rootfs/etc/prometheus:/etc/prometheus
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.alertmanager.rule=Host(`alertmanager.${HOSTNAME}.${DOMAIN_NAME}`)
+      - traefik.http.routers.alertmanager.service=alertmanager
+      - traefik.http.services.alertmanager.loadbalancer.server.port=9093
+
+networks:
+  default:
+    name: o11ystack
+    external: true

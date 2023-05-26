@@ -1,0 +1,31 @@
+
+  - job_name: alertmanager
+    scheme: https
+    hetzner_sd_configs:
+      - role: hcloud
+        authorization:
+          credentials: ${HCLOUD_TOKEN}
+    relabel_configs:
+      - source_labels: [__meta_hetzner_server_name]
+        regex: '${HOSTNAME}'
+        action: keep
+      - source_labels: [__meta_hetzner_server_status]
+        regex: 'running'
+        action: keep
+      - source_labels: [__address__]
+        replacement: 'alertmanager.${HOSTNAME}.${DOMAIN_NAME}'
+        target_label: __address__
+      - source_labels: [__meta_hetzner_server_name]
+        action: replace
+        target_label: instance
+      - source_labels: [__meta_hetzner_hcloud_datacenter_location]
+        target_label: datacenter
+      - source_labels: [__meta_hetzner_hcloud_server_type]
+        target_label: instance_type
+      - source_labels: [__meta_hetzner_hcloud_image_name]
+        target_label: instance_image
+      - source_labels: [__meta_hetzner_public_ipv4]
+        target_label: instance_ip
+      - source_labels: [__name__]
+        regex: '(go_|process_|python_).*'
+        action: drop

@@ -2,7 +2,7 @@ version: '2.4'
 
 services:
   prometheus:
-    image: prom/prometheus:v2.40.1
+    image: prom/prometheus:v2.44.0
     command: |
       --config.file=/etc/prometheus/prometheus.yaml
       --storage.tsdb.retention.size=2GB
@@ -18,7 +18,7 @@ services:
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
 
   node_exporter:
-    image: prom/node-exporter:v1.4.0
+    image: prom/node-exporter:v1.5.0
     command: |
       --path.rootfs=/host
       --collector.filesystem.ignored-mount-points="^/(sys|proc|dev|run|var/lib/docker.*)($|/)"
@@ -30,7 +30,7 @@ services:
       - '/:/host:ro,rslave'
 
   postgresql_exporter:
-    image: prometheuscommunity/postgres-exporter:v0.11.1
+    image: prometheuscommunity/postgres-exporter:v0.12.0
     environment:
       - DATA_SOURCE_NAME="postgresql://petclinic:petclinic@postgresql:5432/petclinic?sslmode=disable"
 

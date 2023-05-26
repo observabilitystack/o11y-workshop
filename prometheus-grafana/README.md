@@ -4,6 +4,22 @@
 
 Before we start, sign up for a [free account grafana.com](https://grafana.com/auth/sign-up/create-user?pg=hp&plcmt=hero-btn1&cta=create-free-account)
 
+- [🪡 Grafana - Integration](#-grafana---integration)
+    - [🔬 Prepare lab environment](#-prepare-lab-environment)
+  - [📖 Metrics (via a local Prometheus)](#-metrics-via-a-local-prometheus)
+    - [Launch a local Prometheus](#launch-a-local-prometheus)
+    - [Configure Grafana Cloud](#configure-grafana-cloud)
+      - [Configure Prometheus Data Source](#configure-prometheus-data-source)
+      - [Import Dashboards into Grafana Cloud](#import-dashboards-into-grafana-cloud)
+  - [🚨 Alerts](#-alerts)
+  - [🪵 Log Management](#-log-management)
+  - [🥷 Tracing](#-tracing)
+      - [🐾 Instrument the Petclinic](#-instrument-the-petclinic)
+  - [🌍 Uptime monitoring](#-uptime-monitoring)
+  - [😰 Stress testing](#-stress-testing)
+  - [🚮 Uninstall](#-uninstall)
+
+
 ### 🔬 Prepare lab environment
 
 This writes some instance metadata into a Docker Compose environment
@@ -13,6 +29,7 @@ logs and traces.
 ```
 cd ~/o11y-workshop/prometheus-grafana
 ../instance-metadata.sh > .env
+cat .env
 ```
 
 ## 📖 Metrics (via a local Prometheus)
@@ -70,7 +87,7 @@ and launch Grafana.
 #### Configure Prometheus Data Source
 
 
-Go to `Configuration -> Data Sources` and add a new Prometheus Data Source.
+Go to `Connections -> Data Sources` and add a new Prometheus Data Source.
 Make it default and use the url `https://prometheus.PETNAME.workshop.o11ystack.org`.
 
 > You can verify that your metrics are available in Grafana using the `Explore` section.
@@ -84,6 +101,19 @@ In Grafana, import the following Dashboards using their Grafana Cloud ID
 * `4701`- [JVM Micrometer](https://grafana.com/grafana/dashboards/4701-jvm-micrometer/)
 * `9628` - [Postgresql](https://grafana.com/grafana/dashboards/9628-postgresql-database/)
 * `11462` - [Traefik 2](https://grafana.com/grafana/dashboards/11462-traefik-2/)
+
+
+## 🚨 Alerts
+
+```
+docker-compose -f docker-compose-alerts.yaml up
+```
+
+```bash
+set -a; source .env; set +a
+envsubst < rootfs/etc/prometheus/prometheus.alertmannager.yaml.template \
+    >> rootfs/etc/prometheus/prometheus.yaml
+```
 
 
 ## 🪵 Log Management
@@ -203,6 +233,10 @@ can add a [Blackbox-Exporter Dashboard to Grafana](https://github.com/ping7io/ex
 in order to visualize those.
 
 ![alt](../images/grafana-ping7-dashboard.png)
+
+
+## 😰 Stress testing
+
 
 ## 🚮 Uninstall
 
