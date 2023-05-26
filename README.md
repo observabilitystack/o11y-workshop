@@ -25,8 +25,8 @@ integrate
 * _Logs_
 * _Uptime monitoring_
 
-We are going to use SaaS cloud offerings as far as possbile and
-feasable.
+We are going to use SaaS cloud offerings as far as possible and
+feasible.
 
 ### 📦 [Deploy the example application](spring-petclinic/README.md)
 
@@ -52,6 +52,6 @@ application.
 
 ### 🦆 [Elastic Stack](elastic/README.md)
 
-The Elastic Stack is a well known for it's log analysis capabilities.
+The Elastic Stack is a well known for its log analysis capabilities.
 But there's more! We'll leverage a Trial Elastic Cloud offering for this
 test drive.
