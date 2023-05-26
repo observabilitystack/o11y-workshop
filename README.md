@@ -33,7 +33,7 @@ feasable.
 We are going to use the Spring Petclinic application as our test
 application.
 
-### 📦 [Naive observability](spring-petclinic/README.md)
+### 📦 [Naive observability](naive-observability/README.md)
 
 What native tools do we have on our machine to get an overview
 what's going on?
