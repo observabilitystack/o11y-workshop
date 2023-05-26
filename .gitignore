@@ -1,2 +1,5 @@
 **/secrets
 **/.env
+
+# generated files
+prometheus-grafana/rootfs/etc/prometheus.yaml

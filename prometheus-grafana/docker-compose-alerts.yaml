@@ -1,7 +1,7 @@
 version: '2.4'
 
 services:
-  prometheus:
+  alertmanager:
     image: prom/alertmanager:v0.25.0
     command: |
       --config.file=/etc/prometheus/alertmanager.yaml

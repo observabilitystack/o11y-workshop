@@ -56,7 +56,6 @@ without making them accessible to Grafana Cloud.
 > 💡 This deplyoment pattern is common to overcome the rather limited
 > free metrics volume in Grafana Cloud
 
-<img src="../images/grafana-configure-prometheus.jpg" width="400" style="float: right; margin-left: 1em;">
 
 ### Launch a local Prometheus
 
@@ -79,21 +78,23 @@ he discovered out of the box.
 
 ### Configure Grafana Cloud
 
-<img src="../images/grafana-node-exporter-dashboard.jpg" width="400" style="float: right; margin-left: 1em;">
-
 [Log into your Grafana cloud account](https://grafana.com/auth/sign-in)
 and launch Grafana.
 
 #### Configure Prometheus Data Source
 
+<img src="../images/grafana-prometheus-performance.png" width="300" style="float: right; margin-left: 1em;">
+<img src="../images/grafana-configure-prometheus.jpg" width="400">
 
 Go to `Connections -> Data Sources` and add a new Prometheus Data Source.
 Make it default and use the url `https://prometheus.PETNAME.workshop.o11ystack.org`.
+Under _Performance_ select the most recent Prometheus version.
 
 > You can verify that your metrics are available in Grafana using the `Explore` section.
 
 #### Import Dashboards into Grafana Cloud
 
+<img src="../images/grafana-node-exporter-dashboard.jpg" width="250" style="float: right; margin-left: 1em;">
 
 In Grafana, import the following Dashboards using their Grafana Cloud ID
 
@@ -105,15 +106,25 @@ In Grafana, import the following Dashboards using their Grafana Cloud ID
 
 ## 🚨 Alerts
 
+<img src="../images/grafana-alertmanager.png" width="400" style="float: right; margin-left: 1em;">
+
 ```
-docker-compose -f docker-compose-alerts.yaml up
+docker-compose -f docker-compose-alerts.yaml up -d
 ```
 
 ```bash
 set -a; source .env; set +a
-envsubst < rootfs/etc/prometheus/prometheus.alertmannager.yaml.template \
+envsubst < rootfs/etc/prometheus/prometheus.alertmanager.yaml.template \
     >> rootfs/etc/prometheus/prometheus.yaml
 ```
+
+Restart your Prometheus instance
+
+In Grafana.com, go to `Connections -> Data Sources` and add a new Alertmanager Data Source.
+Make it default and use the url `https://alertmanager.PETNAME.workshop.o11ystack.org`. Make
+sure to set the _Prometheus_ implementation.
+
+In Grafana.com, you can now browse your Prometheus alerts `Alerts & IRM > Alerting > Alert Rules`.
 
 
 ## 🪵 Log Management
