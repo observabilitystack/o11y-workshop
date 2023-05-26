@@ -10,25 +10,73 @@ observability process here has two steps
 
 ![alt](../images/jdk-flight-recorder.png)
 
+## Prepare the Petclinic
+
+Add the following volume mount to the Petclinic Docker Compose:
+
+```yaml
+services:
+  petclinic:
+    volumes:
+      - ./../java-flight-recorder:/tmp/jfr
+```
+
+Afterwards, restart your Petclinic:
+
+```
+cd ~/o11y-workshop/spring-petclinic
+docker-compose restart petclinic
+```
+
 ## 📼 Create a flight recording
 
-You have to create the recording inside the running Docker container.
+Create an on-demand recording inside the running Docker container.
 
 ```bash
 docker exec -it spring-petclinic-petclinic-1 bash
-JAVA_TOOL_OPTIONS="" jcmd $(pgrep java) JFR.start name=profile duration=60s filename=current.jfr settings=profile
+JAVA_TOOL_OPTIONS="" jcmd $(pgrep java) JFR.start name=profile duration=60s filename=/tmp/petclinic-$(date '+%Y-%m-%d_%H-%M-%S').jfr settings=profile
 JAVA_TOOL_OPTIONS="" jcmd $(pgrep java) JFR.check
 ```
 
-Then, move it outside the Docker container on to the host system.
-
-```bash
-docker cp spring-petclinic-petclinic-1:/current.jfr \
-    ~/o11y-workshop/java-flight-recorder/$(hostname)-$(date '+%Y-%m-%d_%H-%M-%S').jfr
-```
-
-From here you can download the file via VSCode (`Right click -> Download`).
+Due to the directory mount, your JFR will appear in this directory.
+You can download the file via VSCode (`Right click -> Download`).
 
 ## ✨ Analyze a flight recording
 
 Install [JDK Mission Control](https://www.oracle.com/java/technologies/javase/products-jmc8-downloads.html) on your local laptop. Open the downloaded JFR recording with _JDK Mission Control_.
+
+## 🛬 Configure the continuous flight recorder
+
+Before stress testing the app, we want to configure the JVM to write a Flight
+Recorder dump before exit. You can do so by supplying the following options
+to the JVM.
+
+```yaml
+services:
+  petclinic:
+    environment:
+      - JAVA_TOOL_OPTIONS=-XX:StartFlightRecording=disk=true,maxsize=128M,dumponexit=true,name=continuous,settings=default,filename=/tmp/jfr/petclinic-onexit.jfr
+```
+
+Restart your Petclinic instance
+
+```
+cd ~/o11y-workshop/spring-petclinic
+docker-compose restart petclinic
+```
+
+Verify that the `JAVA_TOOL_OPTIONS` have been picked up by the JVM and that
+the flight recorder is recording. It should look like this in the logs:
+
+```
+spring-petclinic-petclinic-1   | Picked up JAVA_TOOL_OPTIONS: -XX:StartFlightRecording=disk=true,maxsize=128M,dumponexit=true,name=continuous,settings=default,filename=/tmp/jfr/petclinic-onexit.jfr
+spring-petclinic-petclinic-1   | [0.381s][info][jfr,startup] Started recording 1.
+spring-petclinic-petclinic-1   | [0.381s][info][jfr,startup]
+spring-petclinic-petclinic-1   | [0.381s][info][jfr,startup] Use jcmd 1 JFR.dump name=continuous to copy recording data to file.
+```
+
+## 😰 Stress testing
+
+```
+hey -n 40000 -c 300 "https://petclinic.$(hostname).workshop.o11ystack.org/owners?lastName=$(hostname)"
+```

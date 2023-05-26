@@ -50,6 +50,8 @@ The Java Flight Recorder ships along recent JDKs, is free and
 offers spectacular insights into a running (or crashed) Java
 application.
 
+### 👁️ [SigNoz](signoz/README.md)
+
 ### 🦆 [Elastic Stack](elastic/README.md)
 
 The Elastic Stack is a well known for its log analysis capabilities.

@@ -263,6 +263,7 @@ hey -n 40000 -c 300 "https://petclinic.$(hostname).workshop.o11ystack.org/owners
 
 * How is the application/host/database behaving?
 * What is the first limit that the application is hitting? Can we somehow raise it?
+* After increasing a limit, repeat the stress test
 
 
 ## 🚮 Uninstall

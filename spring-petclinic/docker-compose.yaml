@@ -5,6 +5,7 @@ services:
     image: ghcr.io/observabilitystack/spring-petclinic:latest
     mem_limit: 320m
     cpus: 1
+    restart: unless-stopped
     environment:
       - spring_profiles_active=postgres
       - POSTGRES_URL=jdbc:postgresql://postgresql/petclinic
@@ -15,6 +16,8 @@ services:
       - traefik.http.routers.petclinic.rule=Host(`petclinic.${HOSTNAME}.${DOMAIN_NAME}`)
       - traefik.http.routers.petclinic.service=petclinic
       - traefik.http.services.petclinic.loadbalancer.server.port=8080
+    volumes:
+      - ./../java-flight-recorder:/tmp/jfr
     depends_on:
       - postgresql
 
