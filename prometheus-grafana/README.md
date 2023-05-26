@@ -108,17 +108,22 @@ In Grafana, import the following Dashboards using their Grafana Cloud ID
 
 <img src="../images/grafana-alertmanager.png" width="400" style="float: right; margin-left: 1em;">
 
+Launch an Alertmanager instance to manage alert dispatching. You can visit
+the Alertmanager UI using `https://alertmanager.PETNAME.workshop.o11ystack.org`.
+
 ```
 docker-compose -f docker-compose-alerts.yaml up -d
 ```
+
+To scrape Alertmanager metrics from within Prometheus, update the
+Prometheus configuration and restart your Prometheus instance afterwards.
 
 ```bash
 set -a; source .env; set +a
 envsubst < rootfs/etc/prometheus/prometheus.alertmanager.yaml.template \
     >> rootfs/etc/prometheus/prometheus.yaml
+docker-compose -f docker-compose-metrics.yaml restart prometheus
 ```
-
-Restart your Prometheus instance
 
 In Grafana.com, go to `Connections -> Data Sources` and add a new Alertmanager Data Source.
 Make it default and use the url `https://alertmanager.PETNAME.workshop.o11ystack.org`. Make
@@ -196,7 +201,7 @@ We can download a recent release from GitHub.
 ```bash
 cd ~/o11y-workshop/spring-petclinic
 sudo curl -sLfo /usr/local/share/opentelemetry-javaagent.jar \
-    "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.19.2/opentelemetry-javaagent.jar"
+    "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.26.0/opentelemetry-javaagent.jar"
 ```
 
 Now we have to add several environment variables to the Petclinic's Docker Compose
@@ -237,6 +242,7 @@ Restart Prometheus afterwards.
 set -a; source .env; set +a
 envsubst < rootfs/etc/prometheus/prometheus.ping7io.yaml.template \
     >> rootfs/etc/prometheus/prometheus.yaml
+docker-compose -f docker-compose-metrics.yaml restart prometheus
 ```
 
 Check that your uptime metrics are available in Grafana. You
@@ -248,6 +254,16 @@ in order to visualize those.
 
 ## 😰 Stress testing
 
+> Now the fun part begins, let's stress test our petclinic fully instrumented and
+> check the difference in visibility and observability!
+
+```
+hey -n 40000 -c 300 "https://petclinic.$(hostname).workshop.o11ystack.org/owners?lastName=$(hostname)"
+```
+
+* How is the application/host/database behaving?
+* What is the first limit that the application is hitting? Can we somehow raise it?
+
 
 ## 🚮 Uninstall
 
@@ -255,6 +271,7 @@ Shut down all Docker containers we just launched.
 
 ```bash
 docker-compose -f docker-compose-metrics.yaml down
+docker-compose -f docker-compose-alerts.yaml down
 docker-compose -f docker-compose-logs.yaml down
 docker-compose -f docker-compose-tracing.yaml down
 ```
