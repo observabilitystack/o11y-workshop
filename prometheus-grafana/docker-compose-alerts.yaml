@@ -4,8 +4,7 @@ services:
   prometheus:
     image: prom/alertmanager:v0.25.0
     command: |
-      --config.file=/etc/prometheus/alertmanager.yaml \
-      --storage.path=/data
+      --config.file=/etc/prometheus/alertmanager.yaml
     volumes:
       - ./rootfs/etc/prometheus:/etc/prometheus
     labels:
