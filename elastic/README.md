@@ -20,7 +20,7 @@ We'll start with application performance monitoring. First, download the Elastic
 cd ~/o11y-workshop/elastic
 sudo mkdir -p /usr/local/share/elastic
 sudo curl -sLfo /usr/local/share/elastic/elastic-apm-agent.jar \
-    https://repo1.maven.org/maven2/co/elastic/apm/elastic-apm-agent/1.34.1/elastic-apm-agent-1.34.1.jar
+    https://repo1.maven.org/maven2/co/elastic/apm/elastic-apm-agent/1.38.0/elastic-apm-agent-1.38.0.jar
 ```
 
 Configure instance metadata and secrets.
@@ -110,8 +110,8 @@ set -a; source .env; set +a
 Now finally, install the Elastic agent
 
 ```
-curl -sL -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.5.1-amd64.deb
-sudo dpkg -i elastic-agent-8.5.1-amd64.deb
+curl -sL -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.8.0-amd64.deb
+sudo dpkg -i elastic-agent-8.8.0-amd64.deb
 sudo elastic-agent enroll --url=${ELASTIC_FLEET_HOST} --enrollment-token=${ELASTIC_FLEET_ENROLLMENT_TOKEN}
 sudo systemctl enable elastic-agent
 sudo systemctl start elastic-agent

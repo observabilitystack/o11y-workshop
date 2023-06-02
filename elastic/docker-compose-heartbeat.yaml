@@ -2,7 +2,7 @@ version: '2.4'
 
 services:
   heartbeat:
-    image: docker.elastic.co/beats/heartbeat:8.5.2
+    image: docker.elastic.co/beats/heartbeat:8.8.0
     user: ${USER_ID}:${GROUP_ID}
     environment:
       - ELASTIC_CLOUD_ID=${ELASTIC_CLOUD_ID}
