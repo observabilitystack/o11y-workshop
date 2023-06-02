@@ -10,24 +10,24 @@ $ docker-compose up -d
 
 ### 🚀 Load Test
 
-Open a second shell and run a load test with
+Run a load on your petclinic by executing
 ```
-hey -n 20000 -c 300 "https://petclinic.$(hostname).workshop.o11ystack.org/owners?lastName=$(hostname)"
+hey -n 40000 -c 300 "https://petclinic.$(hostname).workshop.o11ystack.org/owners?lastName=$(hostname)"
 ```
 
 ### 🔎 Observe
 
-Lets see what we can find out
+Open a second shell and lets see what we can find out
 ```
 docker stats
-docker logs ${container id}
+docker logs [CONTAINER_ID]
 htop
 ```
 
-### 🐞 Provoke a bug
+### 🐞 It's a feature, not a bug
 
-Choose one (or more) commands to provoke a bug and repeat the above points.
-
+We prepared some endpoints to activate and deactivate a certain buggy behavior within your petclinic.
+Try to activate some and let's execute the load test again...
 ```
 curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/memory"
 curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/cpu"
