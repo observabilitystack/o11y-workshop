@@ -12,6 +12,7 @@ Before we start, sign up for a [free account grafana.com](https://grafana.com/au
       - [Configure Prometheus Data Source](#configure-prometheus-data-source)
       - [Import Dashboards into Grafana Cloud](#import-dashboards-into-grafana-cloud)
   - [🚨 Alerts](#-alerts)
+    - [✨ Adding alerts](#-adding-alerts)
   - [🪵 Log Management](#-log-management)
   - [🥷 Tracing](#-tracing)
       - [🐾 Instrument the Petclinic](#-instrument-the-petclinic)
@@ -83,12 +84,13 @@ and launch Grafana.
 
 #### Configure Prometheus Data Source
 
-<img src="../images/grafana-prometheus-performance.png" width="300" style="float: right; margin-left: 1em;">
 <img src="../images/grafana-configure-prometheus.jpg" width="400">
 
 Go to `Connections -> Data Sources` and add a new Prometheus Data Source.
 Make it default and use the url `https://prometheus.PETNAME.workshop.o11ystack.org`.
 Under _Performance_ select the most recent Prometheus version.
+
+<img src="../images/grafana-prometheus-performance.png" width="300">
 
 > You can verify that your metrics are available in Grafana using the `Explore` section.
 
@@ -130,6 +132,11 @@ Make it default and use the url `https://alertmanager.PETNAME.workshop.o11ystack
 sure to set the _Prometheus_ implementation.
 
 In Grafana.com, you can now browse your Prometheus alerts `Alerts & IRM > Alerting > Alert Rules`.
+
+### ✨ Adding alerts
+
+Alerts reside in `rootfs/etc/prometheus/alerts`. If you want,
+craft your own alerts.
 
 
 ## 🪵 Log Management
@@ -245,8 +252,10 @@ envsubst < rootfs/etc/prometheus/prometheus.ping7io.yaml.template \
 docker-compose -f docker-compose-metrics.yaml restart prometheus
 ```
 
-Check that your uptime metrics are available in Grafana. You
-can add a [Blackbox-Exporter Dashboard to Grafana](https://github.com/ping7io/examples/blob/main/dashboards/blackbox-exporter-ping7.io.json)
+1. Check that your uptime metrics are scraped in Prometheus (`Targets`)
+1. Also check the available metrics in Grafana. Use the `Explore` section
+  end explore metrics prefixed `probe_`
+1. You can add a [Blackbox-Exporter Dashboard to Grafana](https://github.com/ping7io/examples/blob/main/dashboards/blackbox-exporter-ping7.io.json)
 in order to visualize those.
 
 ![alt](../images/grafana-ping7-dashboard.png)
@@ -254,7 +263,7 @@ in order to visualize those.
 
 ## 😰 Stress testing
 
-> Now the fun part begins, let's stress test our petclinic fully instrumented and
+> 🤡 Now the fun part begins, let's stress test our petclinic fully instrumented and
 > check the difference in visibility and observability!
 
 ```
@@ -264,6 +273,15 @@ hey -n 40000 -c 300 "https://petclinic.$(hostname).workshop.o11ystack.org/owners
 * How is the application/host/database behaving?
 * What is the first limit that the application is hitting? Can we somehow raise it?
 * After increasing a limit, repeat the stress test
+
+Activate one (or more)bugs in the application and repeat the stress test.
+How is the application coping with the load then?
+
+```
+curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/memory"
+curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/cpu"
+curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/locking"
+```
 
 
 ## 🚮 Uninstall
