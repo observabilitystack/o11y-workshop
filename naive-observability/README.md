@@ -27,9 +27,9 @@ htop
 ### 🐞 Provoke a bug
 
 Choose one (or more) commands to provoke a bug and repeat the above points.
+
 ```
 curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/memory"
 curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/cpu"
 curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/locking"
 ```
-
