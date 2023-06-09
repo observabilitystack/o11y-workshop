@@ -12,7 +12,7 @@ $ docker-compose up -d
 
 Run a load on your petclinic by executing
 ```
-hey -n 40000 -c 300 "https://petclinic.$(hostname).workshop.o11ystack.org/owners?lastName=$(hostname)"
+hey -n 20000 -c 300 "https://petclinic.$(hostname).workshop.o11ystack.org/owners?lastName=$(hostname)"
 ```
 
 ### 🔎 Observe
@@ -22,6 +22,7 @@ Open a second shell and lets see what we can find out
 docker stats
 docker logs [CONTAINER_ID]
 htop
+dmesg
 ```
 
 ### 🐞 It's a feature, not a bug

@@ -3,7 +3,7 @@ version: '2.4'
 services:
   petclinic:
     image: ghcr.io/observabilitystack/spring-petclinic:latest
-    mem_limit: 320m
+    mem_limit: 340m
     cpus: 1
     restart: unless-stopped
     environment:
