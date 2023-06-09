@@ -97,6 +97,7 @@ Under _Performance_ select the most recent Prometheus version.
 
 #### Import Dashboards into Grafana Cloud
 
+
 <img src="../images/grafana-node-exporter-dashboard.jpg" width="250" style="float: right; margin-left: 1em;">
 
 In Grafana, import the following Dashboards using their Grafana Cloud ID
@@ -105,7 +106,13 @@ In Grafana, import the following Dashboards using their Grafana Cloud ID
 * `4701`- [JVM Micrometer](https://grafana.com/grafana/dashboards/4701-jvm-micrometer/)
 * `9628` - [Postgresql](https://grafana.com/grafana/dashboards/9628-postgresql-database/)
 * `11462` - [Traefik 2](https://grafana.com/grafana/dashboards/11462-traefik-2/)
+* `18674` - [Prometheus Blackbox Exporter (Multiple Locations)](https://grafana.com/grafana/dashboards/18674-availability-ping7-io/)
 
+
+For superb visibility, install the _Polystat Plugin_. Navigate to `Home -> Administration -> Plugins`,
+filter for `all` and search and install the `Polystat Plugin`
+
+![alt](../images/grafana-polystat-plugin.png)
 
 ## 🚨 Alerts
 
