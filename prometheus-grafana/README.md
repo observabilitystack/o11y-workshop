@@ -302,25 +302,7 @@ in order to visualize those.
 
 ## 😰 Stress testing
 
-> 🤡 Now the fun part begins, let's stress test our petclinic fully instrumented and
-> check the difference in visibility and observability!
-
-```
-hey -n 40000 -c 300 "https://petclinic.$(hostname).workshop.o11ystack.org/owners?lastName=$(hostname)"
-```
-
-* How is the application/host/database behaving?
-* What is the first limit that the application is hitting? Can we somehow raise it?
-* After increasing a limit, repeat the stress test
-
-Activate one (or more)bugs in the application and repeat the stress test.
-How is the application coping with the load then?
-
-```
-curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/memory"
-curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/cpu"
-curl "https://petclinic.$(hostname).workshop.o11ystack.org/bugs/locking"
-```
+[See our load testing recommendations](../LOADTEST.md)
 
 
 ## 🚮 Uninstall
