@@ -32,7 +32,7 @@ services:
   postgresql_exporter:
     image: prometheuscommunity/postgres-exporter:v0.12.0
     environment:
-      - DATA_SOURCE_NAME="postgresql://petclinic:petclinic@postgresql:5432/petclinic?sslmode=disable"
+      - DATA_SOURCE_NAME="petclinic:petclinic@postgresql:5432/petclinic?sslmode=disable"
 
 networks:
   default:

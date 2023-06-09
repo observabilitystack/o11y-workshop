@@ -16,6 +16,7 @@ Before we start, sign up for a [free account grafana.com](https://grafana.com/au
   - [🪵 Log Management](#-log-management)
   - [🥷 Tracing](#-tracing)
       - [🐾 Instrument the Petclinic](#-instrument-the-petclinic)
+      - [🧐 Explore incoming Traces](#-explore-incoming-traces)
   - [🌍 Uptime monitoring](#-uptime-monitoring)
   - [😰 Stress testing](#-stress-testing)
   - [🚮 Uninstall](#-uninstall)
@@ -108,12 +109,13 @@ In Grafana, import the following Dashboards using their Grafana Cloud ID
 
 ## 🚨 Alerts
 
-<img src="../images/grafana-alertmanager.png" width="400" style="float: right; margin-left: 1em;">
+![alt](../images/grafana-alertmanager.png)
 
 Launch an Alertmanager instance to manage alert dispatching. You can visit
 the Alertmanager UI using `https://alertmanager.PETNAME.workshop.o11ystack.org`.
 
 ```
+cd ~/o11y-workshop/prometheus-grafana
 docker-compose -f docker-compose-alerts.yaml up -d
 ```
 
@@ -150,17 +152,23 @@ to ingest log data to Grafana Loki.
 Append these personal secrets to the environment file:
 
 ```
-echo "GRAFANA_LOKI_USERNAME=32.." >> .env
-echo "GRAFANA_API_KEY=eyJrIjoi.." >> .env
+echo "GRAFANA_LOKI_USERNAME=<YOUR_LOKI_USER>" >> .env
+echo "GRAFANA_API_KEY=<YOUR_GRAFANA_API_KEY>" >> .env
 ```
+
+> ♻️ if you do not know your Grafana API key, create a new one with the _Admin_ role
+
 
 We use Promtail as log ingester which we launch in a Docker container
 
 ```
+cd ~/o11y-workshop/prometheus-grafana
 docker-compose -f docker-compose-logs.yaml up
 ```
 
 > You can verify that your logs are available in Grafana using the `Explore` section.
+
+![alt](../images/grafana-loki-logs.png)
 
 ## 🥷 Tracing
 
@@ -188,17 +196,19 @@ to ingest log data to Grafana Tempo.
 Append these personal secrets to the environment file:
 
 ```
-echo "GRAFANA_TEMPO_USERNAME=3.." >> .env
+echo "GRAFANA_TEMPO_USERNAME=<YOUR_TEMPO_USER>" >> .env
 ```
 
 We'll launch a a Grafana Agent as tracing proxy that authenticates against Grafana
 Cloud.
 
 ```
-docker-compose -f docker-compose-tracing.yaml up
+docker-compose -f docker-compose-tracing.yaml up -d
 ```
 
 > This proxy pattern is pretty common (pretty much like a federated Prometheus)
+
+> The Grafana Agent can be reached via a Docker network as `grafana_agent`.
 
 #### 🐾 Instrument the Petclinic
 
@@ -226,7 +236,29 @@ volumes:
   - /usr/local/share/opentelemetry-javaagent.jar:/usr/local/share/opentelemetry-javaagent.jar
 ```
 
-> The Grafana Agent can be reached via a Docker network as `grafana_agent`.
+When done, restart the petclinic
+
+```bash
+docker-compose restart petclinic
+```
+
+Watch for these log lines when starting the Petclinic:
+
+```
+spring-petclinic-petclinic-1   | Picked up JAVA_TOOL_OPTIONS: "-javaagent:/usr/local/share/opentelemetry-javaagent.jar"
+spring-petclinic-postgresql-1  | running bootstrap script ... ok
+spring-petclinic-petclinic-1   | OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+spring-petclinic-petclinic-1   | [otel.javaagent 2023-06-09 10:15:55:382 +0000] [main] INFO io.opentelemetry.javaagent.tooling.VersionLogger - opentelemetry-javaagent - version: 1.26.0
+```
+
+#### 🧐 Explore incoming Traces
+
+You can verify that your traces are available in Grafana using the `Explore` section.
+
+> If traces are not appearing, please check the logs of the Grafana Agent!
+
+![alt](../images/grafana-tempo-traces.png)
+
 
 ## 🌍 Uptime monitoring
 
@@ -239,7 +271,7 @@ Add your API token to your environment secrets.
 
 ```
 cd ~/o11y-workshop/prometheus-grafana
-echo "PING7IO_TOKEN=feb4453b-..." >> .env
+echo "PING7IO_TOKEN=<YOUR_PING7_IO_TOKEN>" >> .env
 ```
 
 Now append a new scrape job to your existing Prometheus configuration.

@@ -4,7 +4,7 @@ services:
   grafana_agent:
     image: grafana/agent:latest
     command: |
-      -config.file=/etc/agent/agent.yaml
+      -config.file=/etc/agent/agent.yaml -config.expand-env
     environment:
       - GRAFANA_TEMPO_USERNAME=${GRAFANA_TEMPO_USERNAME}
       - GRAFANA_API_KEY=${GRAFANA_API_KEY}
