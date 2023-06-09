@@ -89,7 +89,8 @@ via the `Elastic Fleet`.
 
 To enroll the Elastic Agent into your Elastic Fleet, we need the Fleet secrets. Yet again,
 [log into Elastic Cloud](https://cloud.elastic.co/) and click `Manage deployment`. Open Fleet
-and go to `Fleet -> Settings`. Note the Fleet server host url and copy the `Enrollment token`.
+and go to `Fleet -> Agent Policies` and create a new agent policy. Now note the secret enrollment token under `Fleet -> Enrollment tokens`
+and the Fleet server host url under `Fleet -> Settings`.
 
 > Now you also need the `elastic` user credentials from your initial setup.
 
