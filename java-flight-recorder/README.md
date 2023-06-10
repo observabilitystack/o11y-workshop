@@ -34,7 +34,7 @@ Create an on-demand recording inside the running Docker container.
 
 ```bash
 docker exec -it spring-petclinic-petclinic-1 bash
-JAVA_TOOL_OPTIONS="" jcmd $(pgrep java) JFR.start name=profile duration=60s filename=/tmp/petclinic-$(date '+%Y-%m-%d_%H-%M-%S').jfr settings=profile
+JAVA_TOOL_OPTIONS="" jcmd $(pgrep java) JFR.start name=profile duration=60s filename=/tmp/jfr/petclinic-$(date '+%Y-%m-%d_%H-%M-%S').jfr settings=profile
 JAVA_TOOL_OPTIONS="" jcmd $(pgrep java) JFR.check
 ```
 
