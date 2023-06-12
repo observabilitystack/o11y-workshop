@@ -12,91 +12,47 @@ alerting:
 
 scrape_configs:
   - job_name: nodes
-    hetzner_sd_configs:
-      - role: hcloud
-        authorization:
-          credentials: ${HCLOUD_TOKEN}
-        port: 9100
+    static_configs:
+      - targets:
+        - prometheus.${HOSTNAME}.${DOMAIN_NAME}:9100
+        labels:
+          instance: ${INSTANCE_ID}
+          datacenter: ${INSTANCE_DATACENTER}
+          instance_type: ${INSTANCE_TYPE}
+          instance_image: ${INSTANCE_IMAGE}
+          instance_ip: ${INSTANCE_IP}
     relabel_configs:
-      - source_labels: [__meta_hetzner_server_name]
-        regex: '${HOSTNAME}'
-        action: keep
-      - source_labels: [__meta_hetzner_server_status]
-        regex: 'running'
-        action: keep
-      - source_labels: [__meta_hetzner_server_name]
-        action: replace
-        target_label: instance
-      - source_labels: [__meta_hetzner_hcloud_datacenter_location]
-        target_label: datacenter
-      - source_labels: [__meta_hetzner_hcloud_server_type]
-        target_label: instance_type
-      - source_labels: [__meta_hetzner_hcloud_image_name]
-        target_label: instance_image
-      - source_labels: [__meta_hetzner_public_ipv4]
-        target_label: instance_ip
       - source_labels: [__name__]
         regex: '(go_|process_|python_).*'
         action: drop
 
   - job_name: postgresql
-    hetzner_sd_configs:
-      - role: hcloud
-        authorization:
-          credentials: ${HCLOUD_TOKEN}
-        port: 9187
+    static_configs:
+      - targets:
+        - postgresql_exporter:9187
+        labels:
+          instance: ${INSTANCE_ID}
+          datacenter: ${INSTANCE_DATACENTER}
+          instance_type: ${INSTANCE_TYPE}
+          instance_image: ${INSTANCE_IMAGE}
+          instance_ip: ${INSTANCE_IP}
     relabel_configs:
-      - source_labels: [__meta_hetzner_server_name]
-        regex: '${HOSTNAME}'
-        action: keep
-      - source_labels: [__meta_hetzner_server_status]
-        regex: 'running'
-        action: keep
-      - source_labels: [__address__]
-        replacement: 'postgresql_exporter:9187'
-        target_label: __address__
-      - source_labels: [__meta_hetzner_server_name]
-        action: replace
-        target_label: instance
-      - source_labels: [__meta_hetzner_hcloud_datacenter_location]
-        target_label: datacenter
-      - source_labels: [__meta_hetzner_hcloud_server_type]
-        target_label: instance_type
-      - source_labels: [__meta_hetzner_hcloud_image_name]
-        target_label: instance_image
-      - source_labels: [__meta_hetzner_public_ipv4]
-        target_label: instance_ip
       - source_labels: [__name__]
         regex: '(go_|process_|python_).*'
         action: drop
 
   - job_name: traefik
     scheme: https
-    hetzner_sd_configs:
-      - role: hcloud
-        authorization:
-          credentials: ${HCLOUD_TOKEN}
+    static_configs:
+      - targets:
+        - traefik.${HOSTNAME}.${DOMAIN_NAME}
+        labels:
+          instance: ${INSTANCE_ID}
+          datacenter: ${INSTANCE_DATACENTER}
+          instance_type: ${INSTANCE_TYPE}
+          instance_image: ${INSTANCE_IMAGE}
+          instance_ip: ${INSTANCE_IP}
     relabel_configs:
-      - source_labels: [__meta_hetzner_server_name]
-        regex: '${HOSTNAME}'
-        action: keep
-      - source_labels: [__meta_hetzner_server_status]
-        regex: 'running'
-        action: keep
-      - source_labels: [__address__]
-        replacement: 'traefik.${HOSTNAME}.${DOMAIN_NAME}'
-        target_label: __address__
-      - source_labels: [__meta_hetzner_server_name]
-        action: replace
-        target_label: instance
-      - source_labels: [__meta_hetzner_hcloud_datacenter_location]
-        target_label: datacenter
-      - source_labels: [__meta_hetzner_hcloud_server_type]
-        target_label: instance_type
-      - source_labels: [__meta_hetzner_hcloud_image_name]
-        target_label: instance_image
-      - source_labels: [__meta_hetzner_public_ipv4]
-        target_label: instance_ip
       - source_labels: [__name__]
         regex: '(go_|process_|python_).*'
         action: drop
@@ -104,62 +60,32 @@ scrape_configs:
   - job_name: petclinic
     scheme: https
     metrics_path: /actuator/prometheus
-    hetzner_sd_configs:
-      - role: hcloud
-        authorization:
-          credentials: ${HCLOUD_TOKEN}
+    static_configs:
+      - targets:
+        - petclinic.${HOSTNAME}.${DOMAIN_NAME}
+        labels:
+          instance: ${INSTANCE_ID}
+          datacenter: ${INSTANCE_DATACENTER}
+          instance_type: ${INSTANCE_TYPE}
+          instance_image: ${INSTANCE_IMAGE}
+          instance_ip: ${INSTANCE_IP}
     relabel_configs:
-      - source_labels: [__meta_hetzner_server_name]
-        regex: '${HOSTNAME}'
-        action: keep
-      - source_labels: [__meta_hetzner_server_status]
-        regex: 'running'
-        action: keep
-      - source_labels: [__address__]
-        replacement: 'petclinic.${HOSTNAME}.${DOMAIN_NAME}'
-        target_label: __address__
-      - source_labels: [__meta_hetzner_server_name]
-        action: replace
-        target_label: instance
-      - source_labels: [__meta_hetzner_hcloud_datacenter_location]
-        target_label: datacenter
-      - source_labels: [__meta_hetzner_hcloud_server_type]
-        target_label: instance_type
-      - source_labels: [__meta_hetzner_hcloud_image_name]
-        target_label: instance_image
-      - source_labels: [__meta_hetzner_public_ipv4]
-        target_label: instance_ip
       - source_labels: [__name__]
         regex: '(go_|process_|python_).*'
         action: drop
 
   - job_name: prometheus
     scheme: https
-    hetzner_sd_configs:
-      - role: hcloud
-        authorization:
-          credentials: ${HCLOUD_TOKEN}
+    static_configs:
+      - targets:
+        - prometheus.${HOSTNAME}.${DOMAIN_NAME}
+        labels:
+          instance: ${INSTANCE_ID}
+          datacenter: ${INSTANCE_DATACENTER}
+          instance_type: ${INSTANCE_TYPE}
+          instance_image: ${INSTANCE_IMAGE}
+          instance_ip: ${INSTANCE_IP}
     relabel_configs:
-      - source_labels: [__meta_hetzner_server_name]
-        regex: '${HOSTNAME}'
-        action: keep
-      - source_labels: [__meta_hetzner_server_status]
-        regex: 'running'
-        action: keep
-      - source_labels: [__address__]
-        replacement: 'prometheus.${HOSTNAME}.${DOMAIN_NAME}'
-        target_label: __address__
-      - source_labels: [__meta_hetzner_server_name]
-        action: replace
-        target_label: instance
-      - source_labels: [__meta_hetzner_hcloud_datacenter_location]
-        target_label: datacenter
-      - source_labels: [__meta_hetzner_hcloud_server_type]
-        target_label: instance_type
-      - source_labels: [__meta_hetzner_hcloud_image_name]
-        target_label: instance_image
-      - source_labels: [__meta_hetzner_public_ipv4]
-        target_label: instance_ip
       - source_labels: [__name__]
         regex: '(go_|process_|python_).*'
         action: drop
