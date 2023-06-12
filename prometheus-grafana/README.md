@@ -246,7 +246,8 @@ volumes:
 When done, restart the petclinic
 
 ```bash
-docker-compose restart petclinic
+docker-compose down
+docker-compose up
 ```
 
 Watch for these log lines when starting the Petclinic:
